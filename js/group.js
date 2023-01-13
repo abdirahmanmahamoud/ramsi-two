@@ -2,7 +2,6 @@ let customerId = $('#customerId').val();
 
 function loadData(customerId){
     $('#table tbody').html('');
-    $('#totals').html('');
     let data = {
         'action' : 'groupIN',
         'group_id' : customerId
@@ -29,9 +28,7 @@ function loadData(customerId){
                    }
                   
                 })
-                let to = `Total $${data.groupBalance}`;
                 $('#table tbody').append(tr);
-                $('#totals').append(to);
              }
          },
          error : function(data){
@@ -49,7 +46,7 @@ $('#updateBnt').click(function(){
 function loadDataFrom(customerId){
     $('#table tbody').html('');
     let data = {
-        'action' : 'groupFrom',
+        'action' : 'groupIN',
         'group_id' : customerId
     }
     $.ajax({
@@ -164,7 +161,7 @@ function deleteFunction(customerId){
             alert(per);
            }else{
             alert(per);
-            window.location.href = `../design/customer.php?id=${data.id}`;
+            window.location.href = '../design/';
            }
          },
          error : function(data){

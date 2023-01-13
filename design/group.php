@@ -24,7 +24,6 @@ Product Group Info
         <tbody>
         </tbody>
     </table>
-    <p class='fs-4' id='totals' style ='text-align: center;'></p>
     <div class="modal" id="modal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">

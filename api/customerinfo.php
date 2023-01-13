@@ -12,8 +12,7 @@ function registerOutgoing($db){
     $coon_group = $db->query($query1);
     if($coon_group){
     for($i = 0; $i < count($names); $i++){
-        $total = $qtys[$i] * $prices[$i];
-        $query = "INSERT INTO `product`( `group_id`, `type`, `customer_id`, `name`, `qty`, `price`) VALUES ('$groupId','outgoing','$customer_id','$names[$i]','$qtys[$i]','$total')";
+        $query = "INSERT INTO `product`( `group_id`, `type`, `customer_id`, `name`, `qty`, `price`) VALUES ('$groupId','outgoing','$customer_id','$names[$i]','$qtys[$i]','$prices[$i]')";
         $coon = $db->query($query);
             if($coon){
                 $success [] = array('status' => true,'data' => 'Registered Successfully'); 
@@ -109,18 +108,6 @@ function productPrice($db,$id,$group_id){
     }
     return $price;
 }
-function groupBalance($db,$group_id){
-    $query = "SELECT SUM(price)price FROM `product` WHERE group_id = '$group_id'";
-    $coon = $db->query($query);
-    $row = $coon->fetch_assoc();
-    return $row['price'];
-}
-function groupCus($db,$group_id){
-    $query = "SELECT * FROM `groupproduct` WHERE id = '$group_id'";
-    $coon = $db->query($query);
-    $row = $coon->fetch_assoc();
-    return $row['customerId'];
-}
 function groupIN($db){
     $date = array();
     $mess = array();
@@ -133,31 +120,7 @@ function groupIN($db){
                 'date' => date_m($row['date'],'d/m/Y'),
                 'name' => $row['name'],
                 'qty' => $row['qty'],
-                'price' => '$'.$row['price'],
-                'id' => $row['id'],
-            );
-            $date [] = $dateArray;
-        }
-        $mess = array('status' => true,'data' => $date,'groupBalance' => groupBalance($db,$group_id));
-    }else{
-        $mess = array('status' => false, 'data' => $db->error);
-    }
-    echo json_encode($mess);
-}
-
-function groupFrom($db){
-    $date = array();
-    $mess = array();
-    $group_id = $_POST['group_id'];
-    $query = "SELECT * FROM `product` WHERE group_id = '$group_id'";
-    $coon = $db->query($query);
-    if($coon){
-        while($row = $coon->fetch_assoc()){
-            $dateArray = array(
-                'date' => date_m($row['date'],'d/m/Y'),
-                'name' => $row['name'],
-                'qty' => $row['qty'],
-                'price' => $row['price'] / $row['qty'],
+                'price' => $row['price'],
                 'id' => $row['id'],
             );
             $date [] = $dateArray;
@@ -175,8 +138,7 @@ function update($db){
     $success = array();
     $error = array();
     for($i = 0; $i < count($names); $i++){
-        $total = $qtys[$i] * $prices[$i];
-        $query = "UPDATE `product` SET `name`='$names[$i]',`qty`='$qtys[$i]',`price`='$total' WHERE id = '$id[$i]'";
+        $query = "UPDATE `product` SET `name`='$names[$i]',`qty`='$qtys[$i]',`price`='$prices[$i]' WHERE id = '$id[$i]'";
         $coon = $db->query($query);
             if($coon){
                 $success [] = array('status' => true,'data' => 'update Successfully'); 
@@ -205,7 +167,7 @@ function delete($db){
             $query1 = "DELETE FROM `groupproduct` WHERE id = '$id'";
             $coon1 = $db->query($query1);
             if($coon1){
-                $data = array('status' => true,'data' => 'Delete Successfully','id' => groupCus($db,$id));
+                $data = array('status' => true,'data' => 'Delete Successfully');
             }
         }else{
             $data = array('status' => false, 'data' => $db->error);
@@ -295,7 +257,7 @@ function loadDataPay($db){
             $dateArray = array(
                 'id' => $row['id'],
                 'date' => date_m($row['date'],'d/m/Y'),
-                'price' => '$'.$row['price']
+                'price' => $row['price']
             );
             $date [] = $dateArray;
         }

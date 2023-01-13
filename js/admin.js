@@ -19,7 +19,7 @@ function loadData(){
                    for(let i in item){
                     if(i == 'id'){
                     }else{
-                        tr += `<td><a href="../design/admini.php?id=${item['id']}"class='aName'>${item[i]}</a></td>`;
+                        tr += `<td><a href="../design/adminInfo.php?id=${item['id']}"class='aName'>${item[i]}</a></td>`;
                     }
                    }
                   

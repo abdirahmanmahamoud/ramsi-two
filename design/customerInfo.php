@@ -170,4 +170,4 @@ if($_GET['id'] == null){
 }
 include 'footer.php';
 ?>
-<script src="../js/customerinfo.js"></script>
+<script src="../js/customerInfo.js"></script>
