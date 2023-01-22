@@ -51,4 +51,4 @@ Product Group Info
 <?php
 include './footer.php';
 ?>
-<script src="../js/group.js"></script>
+<script src="../js/groupStore.js"></script>

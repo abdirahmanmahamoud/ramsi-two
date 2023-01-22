@@ -7,20 +7,31 @@ function registerOutgoing($db){
     extract($_POST);
     $success = array();
     $error = array();
-    $groupId = groupId($db);
-    $query1 = "INSERT INTO `groupproduct`(`id`, `customerId`) VALUES ('$groupId','$customer_id')";
-    $coon_group = $db->query($query1);
-    if($coon_group){
-    for($i = 0; $i < count($names); $i++){
-        $query = "INSERT INTO `product`( `group_id`, `type`, `customer_id`, `name`, `qty`, `price`) VALUES ('$groupId','outgoing','$customer_id','$names[$i]','$qtys[$i]','$prices[$i]')";
-        $coon = $db->query($query);
-            if($coon){
-                $success [] = array('status' => true,'data' => 'Registered Successfully'); 
-            }else{
-                $error [] = array('status' => false, 'data' => $db->error);
-            }
+    include './Outgoing.php';
+    $OutgoingSre = OutgoingSreg($db,$names,$qtys);
+    if($OutgoingSre['code'] == 321){
+        $pro = $OutgoingSre['data'];
+        $groupId = groupId($db);
+        $query1 = "INSERT INTO `groupproduct`(`id`, `customerId`) VALUES ('$groupId','$customer_id')";
+        $coon_group = $db->query($query1);
+        if($coon_group){
+        for($i = 0; $i < count($pro); $i++){
+            $total = $pro[$i]['qty'] * $pro[$i]['price'];
+            $namePRO = $pro[$i]['name'];
+            $qtyPRO = $pro[$i]['qty'];
+            $query = "INSERT INTO `product`( `group_id`, `type`, `customer_id`, `name`, `qty`, `price`) VALUES ('$groupId','outgoing','$customer_id','$namePRO','$qtyPRO','$total')";
+            $coon = $db->query($query);
+                if($coon){
+                    $success [] = array('status' => true,'data' => 'Registered Successfully'); 
+                }else{
+                    $error [] = array('status' => false, 'data' => $db->error);
+                }
+        }
+       }
+    }else{
+        $error [] = array('data' => $OutgoingSre['data']);
     }
-    }
+
     if(count($success) > 0 && count($error) == 0){
         $data = array('status' => true,'data' => 'Registered Successfully');
     }elseif(count($error) > 0){
@@ -108,6 +119,18 @@ function productPrice($db,$id,$group_id){
     }
     return $price;
 }
+function groupBalance($db,$group_id){
+    $query = "SELECT SUM(price)price FROM `product` WHERE group_id = '$group_id'";
+    $coon = $db->query($query);
+    $row = $coon->fetch_assoc();
+    return $row['price'];
+}
+function groupCus($db,$group_id){
+    $query = "SELECT * FROM `groupproduct` WHERE id = '$group_id'";
+    $coon = $db->query($query);
+    $row = $coon->fetch_assoc();
+    return $row['customerId'];
+}
 function groupIN($db){
     $date = array();
     $mess = array();
@@ -120,7 +143,30 @@ function groupIN($db){
                 'date' => date_m($row['date'],'d/m/Y'),
                 'name' => $row['name'],
                 'qty' => $row['qty'],
-                'price' => $row['price'],
+                'price' => '$'.$row['price'],
+                'id' => $row['id'],
+            );
+            $date [] = $dateArray;
+        }
+        $mess = array('status' => true,'data' => $date,'groupBalance' => groupBalance($db,$group_id));
+    }else{
+        $mess = array('status' => false, 'data' => $db->error);
+    }
+    echo json_encode($mess);
+}
+
+function groupFrom($db){
+    $date = array();
+    $mess = array();
+    $group_id = $_POST['group_id'];
+    $query = "SELECT * FROM `product` WHERE group_id = '$group_id'";
+    $coon = $db->query($query);
+    if($coon){
+        while($row = $coon->fetch_assoc()){
+            $dateArray = array(
+                'date' => date_m($row['date'],'d/m/Y'),
+                'name' => $row['name'],
+                'qty' => $row['qty'],
                 'id' => $row['id'],
             );
             $date [] = $dateArray;
@@ -137,15 +183,26 @@ function update($db){
     extract($_POST);
     $success = array();
     $error = array();
-    for($i = 0; $i < count($names); $i++){
-        $query = "UPDATE `product` SET `name`='$names[$i]',`qty`='$qtys[$i]',`price`='$prices[$i]' WHERE id = '$id[$i]'";
+    include 'Outgoing.php';
+    $OutgoingSre = OutgoingUp($db,$names,$qtys,$id);
+    if($OutgoingSre['code'] == 321){
+    $pro = $OutgoingSre['data'];
+    for($i = 0; $i < count($pro); $i++){
+        $total = $pro[$i]['qty'] * $pro[$i]['price'];
+        $namePRO = $pro[$i]['name'];
+        $qtyPRO = $pro[$i]['qty'];
+        $query = "UPDATE `product` SET `name`='$namePRO',`qty`='$qtyPRO',`price`='$total' WHERE id = '$id[$i]'";
         $coon = $db->query($query);
             if($coon){
-                $success [] = array('status' => true,'data' => 'update Successfully'); 
+                $success [] = array('status' => true,'data' => 'Registered Successfully'); 
             }else{
                 $error [] = array('status' => false, 'data' => $db->error);
+            }
     }
+    }else{
+        $error [] = array('data' => $OutgoingSre['data']);
     }
+
     if(count($success) > 0 && count($error) == 0){
         $data = array('status' => true,'data' => 'update Successfully');
     }elseif(count($error) > 0){
@@ -161,17 +218,23 @@ function delete($db){
         $data = array('status' => false, 'data' => 'not allowed to delete');
     }else{
         $id = $_POST['id'];
-        $query = "DELETE FROM `product` WHERE group_id = '$id'";
-        $coon = $db->query($query);
-        if($coon){
-            $query1 = "DELETE FROM `groupproduct` WHERE id = '$id'";
-            $coon1 = $db->query($query1);
-            if($coon1){
-                $data = array('status' => true,'data' => 'Delete Successfully');
+        $groupCus = groupCus($db,$id);
+        include 'Outgoing.php';
+        $pro = OutgoingDele($db,$id);
+        if($pro == 321){
+            $query = "DELETE FROM `product` WHERE group_id = '$id'";
+            $coon = $db->query($query);
+            if($coon){
+                $query1 = "DELETE FROM `groupproduct` WHERE id = '$id'";
+                $coon1 = $db->query($query1);
+                if($coon1){
+                    $data = array('status' => true,'data' => 'Delete Successfully','id' => $groupCus);
+                }
+            }else{
+                $data = array('status' => false, 'data' => $db->error);
             }
-        }else{
-            $data = array('status' => false, 'data' => $db->error);
         }
+       
     }
     echo json_encode($data);
 }
@@ -257,7 +320,7 @@ function loadDataPay($db){
             $dateArray = array(
                 'id' => $row['id'],
                 'date' => date_m($row['date'],'d/m/Y'),
-                'price' => $row['price']
+                'price' => '$'.$row['price']
             );
             $date [] = $dateArray;
         }

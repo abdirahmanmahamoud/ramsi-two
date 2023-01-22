@@ -68,6 +68,7 @@ function login($db){
                 if($date2 <= $days2){
                     $data = array('status' => false,'data' => 'This account has expired');
                 }else{
+                     if($row2['status'] == 'active'){
                     if($row1['status'] == 'Action'){
                         $_SESSION['admin_id'] = $user_id;
                         $_SESSION['role'] = $row1['role'];
@@ -76,6 +77,9 @@ function login($db){
                     }else{
                         $data = array('status' => false,'data' => 'Your account is blocked');
                     }
+                     }else{
+                          $data = array('status' => false,'data' => 'Your admin account is blocked');
+                     }
                 }
             }else{
                 $data = array('status' => false,'data' => 'Phone and password are incorrect');

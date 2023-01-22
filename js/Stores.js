@@ -5,17 +5,17 @@ function fethCustomerInfo(id){
     $('#customerName').html('');
     $('#customerPhone').html(''); 
     $('#customerBalance').html('');
-    $('#fullName').html('');
-    $('#phone').html('');
+    $('#storeName').html('');
+    $('#storePhone').html('');
     $('#id').html('');
     let send ={
-       'action' :  'fethCustomerInfo',
+       'action' :  'loadDataSte',
        'id' :  id,
     }
     $.ajax({
        method : 'POST',
        dataType : 'JSON',
-       url :  '../api/customer.php',
+       url :  '../api/Store.php',
        data :  send,
        success : function(data){
           let status = data.status;
@@ -23,11 +23,11 @@ function fethCustomerInfo(id){
           let html ='';
           let tr = '';
           if(status){
-             $('#customerName').append(per[0].fullName);
-             $('#customerPhone').append(per[0].phone);
-             $('#customerBalance').append(per[0].Balance);
-             $('#fullName').val(per[0].fullName);
-             $('#phone').val(per[0].phone);
+             $('#customerName').append(per[0].storeName);
+             $('#customerPhone').append(per[0].storePhone);
+             $('#customerBalance').append(per[0].storeBalance);
+             $('#storeName').val(per[0].storeName);
+             $('#storePhone').val(per[0].storePhone);
              $('#id').val(per[0].id);
           }
         },
@@ -36,41 +36,16 @@ function fethCustomerInfo(id){
         },
     })
 }
-function nameInputS(){
-    let send ={
-       'action' :  'loadDataInventory'
-    }
-    $.ajax({
-       method : 'POST',
-       dataType : 'JSON',
-       url :  '../api/inventory.php',
-       data :  send,
-       success : function(data){
-          let status = data.status;
-          let per = data.data;
-          let html ='';
-          if(status){
-            per.forEach(item =>{
-                html += `<option>${item['name']}</option>`;
-             })
-             $('#datalistOptions').append(html);
-          }
-        },
-        error : function(data){
-           console.log(data);
-        },
-    })
-}
-nameInputS();
+
 $('#fromUpdateCustomer').submit(function(event){
     event.preventDefault();
     $('.alertInfo').html('');
     let form_data = new FormData($('#fromUpdateCustomer')[0]);
-      form_data.append('action','update');
+      form_data.append('action','updateStore');
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customer.php',
+        url :  '../api/Store.php',
         data :  form_data,
         processData : false,
         contentType : false,
@@ -87,38 +62,34 @@ $('#fromOutgoing').submit(function(event){
     $('.alertInfo').html('');
     let names =[];
     let Qtys =[];
-
+    let Prices =[];
     let name = document.querySelectorAll('#namePr');
     let Qty = document.querySelectorAll('#QtyPr');
-
+    let Price = document.querySelectorAll('#PricePr');
     name.forEach(input_name =>{
         names.push(input_name.value);
     })
     Qty.forEach(input_Qty =>{
         Qtys.push(input_Qty.value);
     })
+    Price.forEach(input_Price =>{
+        Prices.push(input_Price.value);
+    })
     let data = {
         'names' : names,
         'qtys' : Qtys,
-        'customer_id' : customerId,
+        'prices' : Prices,
+        'store_id' : customerId,
         'action' : 'registerOutgoing'
     };
 
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customerinfo.php',
+        url :  '../api/Store.php',
         data :  data,
         success : function(data){
-            if(data.status == false){
-                let alert = $('.alertInfo');
-                data.data[0].data.forEach(item =>{
-                    let danger = `<div class="alert alert-danger">There are ${item.qtyAction} pieces of ${item.name}</div>`;
-                    alert.append(danger);
-                })
-            }else{
-                alertInfo(data.status,data.data,'modalOutgoing','fromOutgoing');
-            }
+           alertInfo(data.status,data.data,'modalOutgoing','fromOutgoing');
          },
          error : function(data){
             console.log(data);
@@ -128,17 +99,18 @@ $('#fromOutgoing').submit(function(event){
 let btn = 'insert';
 $('#fromPayment').submit(function(e){
     e.preventDefault();
+    $('.alertInfo').html('');
     let data = '';
     if(btn == 'insert'){
         data = {
             'action' : 'registerPay',
-            'customer_id' : customerId,
+            'store_id' : customerId,
             'amount' : $('#Amount').val()
         }
     }else{
         data = {
             'action' : 'updatePay',
-            'customer_id' : customerId,
+            'store_id' : customerId,
             'amount' : $('#Amount').val(),
             'id' : $('#idPay').val(),
         }
@@ -147,7 +119,7 @@ $('#fromPayment').submit(function(e){
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customerinfo.php',
+        url :  '../api/store.php',
         data :  data,
         success : function(data){
            alertInfo(data.status,data.data,'modalPayment','fromPayment');
@@ -161,12 +133,12 @@ function loadData(customerId){
     $('#table tbody').html('');
     let data = {
         'action' : 'loadData',
-        'customerId' : customerId
+        'storeId' : customerId
     }
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customerinfo.php',
+        url :  '../api/store.php',
         data :  data,
         success : function(data){
             let status = data.status;
@@ -180,7 +152,7 @@ function loadData(customerId){
                    for(let i in item){
                      if(i == 'id'){
                     }else{
-                        tr += `<td><a href="../design/group.php?id=${item['id']}"class='aName'>${item[i]}</a></td>`;
+                        tr += `<td><a href="../design/groupStore.php?id=${item['id']}"class='aName'>${item[i]}</a></td>`;
                     }
                    }
                   
@@ -199,12 +171,12 @@ function loadDataPay(customerId){
     let data = {
         'action' : 'loadDataPay',
         'id' : '',
-        'customer_id' : customerId
+        'store_id' : customerId
     }
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customerinfo.php',
+        url :  '../api/Store.php',
         data :  data,
         success : function(data){
             let status = data.status;
@@ -236,13 +208,13 @@ loadDataPay(customerId);
 
 function deleteFunction(customerId){
     let send ={
-        'action' :  'deleteCustomer',
+        'action' :  'deleteStore',
         'id' :  customerId,
      }
      $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customer.php',
+        url :  '../api/Store.php',
         data :  send,
         success : function(data){
            let status = data.status;
@@ -251,7 +223,7 @@ function deleteFunction(customerId){
             alert(per);
            }else{
             alert(per);
-            window.location.href = '../design/';
+            window.location.href = '../design/Store.php';
            }
          },
          error : function(data){
@@ -274,27 +246,27 @@ $('#close').click(function(){
 })
 $('#aadOutgoing').click(function(){
     $('#modalOutgoing').modal('show');
-    $('.alertInfo').html('');
 })
 $('#Payment').click(function(){
     $('#modalPayment').modal('show');
     btn = 'insert';
-    $('.alertInfo').html('');
 })
 
 $('#addFrom').click(function(){
   let html = `<div class="mb-3"></div>
   <h5 class="mb-2">product</h5>
   <div class="mb-3">
-    <label class="form-label">Name</label><input class="form-control" list="datalistOptions" id="namePr" placeholder="Select Product Name" name="namePr" >
-    <datalist id="datalistOptions">
-    </datalist>
+    <label class="form-label">Name</label>
+    <input type="text" name="namePr" id="namePr" class='form-control' required>
   </div>
   <div class="mb-3">
     <label class="form-label">Qty</label>
     <input type="text" name="QtyPr" id="QtyPr" class='form-control' required>
   </div>
- `;
+  <div class="mb-3">
+    <label class="form-label">Price</label>
+    <input type="text" name="PricePr" id="PricePr" class='form-control' required>
+  </div>`;
   $('.formAdd').append(html);
 })
 
@@ -302,12 +274,12 @@ function all(id){
     let data = {
         'action' : 'loadDataPay',
         'id' : id,
-        'customer_id' : customerId
+        'store_id' : customerId
     }
     $.ajax({
        method : 'POST',
        dataType : 'JSON',
-       url :  '../api/customerinfo.php',
+       url :  '../api/Store.php',
        data :  data,
        success : function(data){
           let status = data.status;
@@ -330,12 +302,12 @@ function all(id){
  function deletes(id){
     let send ={
         'action' :  'deletePay',
-        'id' :  id,
+        'store_id' :  id,
      }
      $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customerinfo.php',
+        url :  '../api/Store.php',
         data :  send,
         success : function(data){
            let status = data.status;

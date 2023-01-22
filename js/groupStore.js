@@ -10,7 +10,7 @@ function loadData(customerId){
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customerinfo.php',
+        url :  '../api/Store.php',
         data :  data,
         success : function(data){
             let status = data.status;
@@ -42,33 +42,6 @@ function loadData(customerId){
 loadData(customerId);
 loadDataFrom(customerId);
 
-function nameInputS(){
-    let send ={
-       'action' :  'loadDataInventory'
-    }
-    $.ajax({
-       method : 'POST',
-       dataType : 'JSON',
-       url :  '../api/inventory.php',
-       data :  send,
-       success : function(data){
-          let status = data.status;
-          let per = data.data;
-          let html ='';
-          if(status){
-            per.forEach(item =>{
-                html += `<option>${item['name']}</option>`;
-             })
-             $('#datalistOptions').append(html);
-          }
-        },
-        error : function(data){
-           console.log(data);
-        },
-    })
-}
-nameInputS();
-
 $('#updateBnt').click(function(){
     $('#modal').modal('show');
 })
@@ -82,7 +55,7 @@ function loadDataFrom(customerId){
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customerinfo.php',
+        url :  '../api/Store.php',
         data :  data,
         success : function(data){
             let status = data.status;
@@ -109,16 +82,7 @@ function loadDataFrom(customerId){
                     html += `<div class="mb-3"></div>
                     <h5 class="mb-2">product #</h5>`;
                    for(let i in item){
-                    if(i == 'date'){}else if(i == 'name'){
-                        html += ` 
-                        <div class="mb-3 ${hideId(i)}">
-                        <label class="form-label">Name</label>
-                        <input class="form-control" list="datalistOptions" id="namePr" placeholder="Select Product Name" name="namePr" value="${item[i]}">
-                        <datalist id="datalistOptions">
-                        </datalist>
-                        </div>
-                       `
-                    }else{
+                    if(i == 'date'){}else{
                         html += ` 
                         <div class="mb-3 ${hideId(i)}">
                           <label class="form-label">${i}</label>
@@ -143,6 +107,7 @@ $('#formData').submit(function(event){
     $('.alertInfo').html('');
     let names =[];
     let Qtys =[];
+    let Prices =[];
     let ids =[];
     let name = document.querySelectorAll('#namePr');
     let Qty = document.querySelectorAll('#QtyPr');
@@ -154,6 +119,9 @@ $('#formData').submit(function(event){
     Qty.forEach(input_Qty =>{
         Qtys.push(input_Qty.value);
     })
+    Price.forEach(input_Price =>{
+        Prices.push(input_Price.value);
+    })
     id.forEach(input_id =>{
         ids.push(input_id.value);
     })
@@ -161,25 +129,17 @@ $('#formData').submit(function(event){
         'names' : names,
         'qtys' : Qtys,
         'id' : ids,
+        'prices' : Prices,
         'action' : 'update'
     };
 
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customerinfo.php',
+        url :  '../api/Store.php',
         data :  data,
         success : function(data){
-            if(data.status == false){
-                let alert = $('.alertInfo');
-                data.data[0].data.forEach(item =>{
-                    let danger = `<div class="alert alert-danger">There are ${item.qtyAction} pieces of ${item.name}</div>`;
-                    alert.append(danger);
-                })
-            }else{
-                alertInfo(data.status,data.data,'modal','formData');
-            }
-           
+           alertInfo(data.status,data.data,'modal','formData');
          },
          error : function(data){
             console.log(data);
@@ -195,7 +155,7 @@ function deleteFunction(customerId){
      $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/customerinfo.php',
+        url :  '../api/Store.php',
         data :  send,
         success : function(data){
            let status = data.status;
@@ -204,7 +164,7 @@ function deleteFunction(customerId){
             alert(per);
            }else{
             alert(per);
-            window.location.href = `../design/customers.php?id=${data.id}`;
+            window.location.href = `../design/Stores.php?id=${data.id}`;
            }
          },
          error : function(data){

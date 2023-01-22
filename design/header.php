@@ -24,17 +24,25 @@ if(!$_SESSION['role']){
         </div>
         <div class="item">
             <?php if($_SESSION['role'] == 'word'){?>
-            <li><a href="./"><i class="fa-solid fa-users"></i>Customers</a></li>
+            <li><a href="./customer.php"><i class="fa-solid fa-users"></i>Customers</a></li>
             <li><a href="Transactions.php"><i class="fa-regular fa-credit-card"></i>Transactions</a></li>
             <?php }else if($_SESSION['role'] == 'admin'){?>
-            <li><a href="./"><i class="fa-solid fa-users"></i>Customers</a></li>
+            <li><a href="index.php"><i class="fa-solid fa-home"></i>Dashboard</a></li>
+            <li><a href="customer.php"><i class="fa-solid fa-users"></i>Customers</a></li>
             <li><a href="Transactions.php"><i class="fa-regular fa-credit-card"></i>Transactions</a></li>
             <li><a href="user.php"><i class="fa-solid fa-user"></i>users</a></li>
+            <li><a href="inventory.php"><i class="fa-solid fa-warehouse"></i></i>inventory</a></li>
+            <li><a href="./Store.php"><i class="fa-solid fa-store"></i>Vendors</a></li>
+            <li><a href="./bank.php"><i class="fa-solid fa-building-columns"></i>Bank</a></li>
             <li><a href="companyProfile.php"><i class="fa-solid fa-tv"></i>My Profile</a></li>
             <?php }else if($_SESSION['role'] == 'super'){?>
-            <li><a href="./"><i class="fa-solid fa-users"></i>Customers</a></li>
+            <li><a href="customer.php"><i class="fa-solid fa-home"></i>Dashboard</a></li>
+            <li><a href="customer.php"><i class="fa-solid fa-users"></i>Customers</a></li>
             <li><a href="Transactions.php"><i class="fa-regular fa-credit-card"></i>Transactions</a></li>
             <li><a href="user.php"><i class="fa-solid fa-user"></i>users</a></li>
+            <li><a href="inventory.php"><i class="fa-solid fa-warehouse"></i></i>inventory</a></li>
+            <li><a href="./Store.php"><i class="fa-solid fa-store"></i>Vendors</a></li>
+            <li><a href="./bank.php"><i class="fa-solid fa-building-columns"></i>Bank</a></li>
             <li><a href="admin.php"><i class="fa-solid fa-user"></i>Super admin</a></li>
             <li><a href="companyProfile.php"><i class="fa-solid fa-tv"></i>My Profile</a></li>
             <?php }?>

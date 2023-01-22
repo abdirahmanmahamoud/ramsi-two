@@ -5,14 +5,15 @@ if($_GET['id'] == null){
     return;
 }else{
 }
+if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
   $idC = $_GET['id'];
   $admin = $_SESSION['admin_id'];
-  $query = "SELECT * FROM `customer` WHERE id = '$idC' AND userid = '$admin'";
+  $query = "SELECT * FROM `storename` WHERE id = '$idC' AND userid = '$admin'";
   $conn = mysqli_query($db,$query);
   $sax = (mysqli_num_rows($conn));
   if($sax){
 ?>
-<div class="i-name">Customer info</div>
+<div class="i-name">Vendors info</div>
 <div class="padding">
 <input type="hidden" id="customerId" value="<?php echo $_GET['id']; ?>">
 <button class="btn btn-primary float-right" id="updateBnt"><i class="fas fa-edit"></i></button>
@@ -33,7 +34,7 @@ if($_GET['id'] == null){
 </div>
 <div style="margin-top: 30px;">
   <button class="btn btn-primary" id="aadOutgoing">Outgoing</button>
-  <button class="btn btn-success" id='Payment'>Payment</button>
+  <button class="btn btn-su ccess" id='Payment'>Payment</button>
 </div>
 <h4 class="fs-4 p-3">Reading</h4>
 <table class="table" style="margin-top: 15px; margin-left: 5px;" id="table">
@@ -71,12 +72,12 @@ if($_GET['id'] == null){
         <div class="alertInfo"></div>
         <form id="fromUpdateCustomer">
         <div class="mb-3">
-              <label class="form-label">Full Name</label>
-              <input type="text" name="fullName" id="fullName" class='form-control' required>
+              <label class="form-label">store Name</label>
+              <input type="text" name="storeName" id="storeName" class='form-control' required>
           </div>
           <div class="mb-3">
-              <label class="form-label">Phone number</label>
-              <input type="text" name="phone" id="phone" class='form-control' required>
+              <label class="form-label">store phone</label>
+              <input type="text" name="storePhone" id="storePhone" class='form-control' required>
           </div>
           <input type="hidden" name="id" id="id" value="<?php echo $_GET['id'];?>">
         </div>
@@ -168,6 +169,9 @@ if($_GET['id'] == null){
 }else{
   header('location: ./');
 }
+}else{
+  header('location: index.php');
+}
 include 'footer.php';
 ?>
-<script src="../js/customerInfo.js"></script>
+<script src="../js/Stores.js"></script>

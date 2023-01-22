@@ -22,7 +22,7 @@ function loadDataUser($db){
 function updatePassword($db){
     extract($_POST);
     $admin_id = $_SESSION['admin_id'];
-    $query = "UPDATE `word` SET `password`= md5('$password') WHERE id = '$admin_id'";
+    $query = "UPDATE `user` SET `password`= md5('$password') WHERE id = '$admin_id'";
     $coon = $db -> query($query);
     if($coon){
         $data = array('status' => true,'data' => 'Update Password Successfully');

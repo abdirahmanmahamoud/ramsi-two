@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2023 at 01:53 PM
+-- Generation Time: Jan 22, 2023 at 07:28 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.8
 
@@ -43,6 +43,21 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bank`
+--
+
+CREATE TABLE `bank` (
+  `id` int(11) NOT NULL,
+  `amount` float(11,2) NOT NULL,
+  `type` varchar(35) NOT NULL,
+  `description` text NOT NULL,
+  `user_id` varchar(32) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customer`
 --
 
@@ -68,6 +83,33 @@ CREATE TABLE `groupproduct` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `groupproductstore`
+--
+
+CREATE TABLE `groupproductstore` (
+  `id` varchar(32) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `storeId` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory`
+--
+
+CREATE TABLE `inventory` (
+  `id` int(11) NOT NULL,
+  `name` varchar(80) NOT NULL,
+  `qty` varchar(32) NOT NULL,
+  `price` varchar(32) NOT NULL,
+  `userId` varchar(32) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product`
 --
 
@@ -80,6 +122,37 @@ CREATE TABLE `product` (
   `qty` varchar(50) NOT NULL,
   `price` float(11,2) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `productstore`
+--
+
+CREATE TABLE `productstore` (
+  `id` int(11) NOT NULL,
+  `group_id` varchar(40) NOT NULL,
+  `type` varchar(40) NOT NULL,
+  `store_id` varchar(30) NOT NULL,
+  `name` varchar(600) NOT NULL,
+  `qty` varchar(50) NOT NULL,
+  `price` float(11,2) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `storename`
+--
+
+CREATE TABLE `storename` (
+  `id` int(11) NOT NULL,
+  `storeName` varchar(55) NOT NULL,
+  `storePhone` varchar(22) NOT NULL,
+  `storeBalance` float(11,2) NOT NULL,
+  `userid` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -120,6 +193,12 @@ CREATE TABLE `word` (
 --
 
 --
+-- Indexes for table `bank`
+--
+ALTER TABLE `bank`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
@@ -132,9 +211,33 @@ ALTER TABLE `groupproduct`
   ADD UNIQUE KEY `id` (`id`);
 
 --
+-- Indexes for table `groupproductstore`
+--
+ALTER TABLE `groupproductstore`
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `inventory`
+--
+ALTER TABLE `inventory`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `productstore`
+--
+ALTER TABLE `productstore`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `storename`
+--
+ALTER TABLE `storename`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -154,15 +257,39 @@ ALTER TABLE `word`
 --
 
 --
+-- AUTO_INCREMENT for table `bank`
+--
+ALTER TABLE `bank`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `inventory`
+--
+ALTER TABLE `inventory`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `productstore`
+--
+ALTER TABLE `productstore`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `storename`
+--
+ALTER TABLE `storename`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
