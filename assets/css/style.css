@@ -70,9 +70,6 @@ body{
 .item li:hover{
     background-color: #151c3f;
 }
-.item li:nth-child(1){
-    border-left: 4px solid #fff;
-}
 .item li:hover i , .item li:hover a{
     color: #f3efef;
 }

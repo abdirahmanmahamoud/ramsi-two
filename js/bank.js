@@ -31,6 +31,7 @@ $('#formData').submit(function(e){
 loadDataInventory();
 function loadDataInventory(){
     $('#table tbody').html('');
+    $('#total').html('');
     let dataSend = {
         'action' : 'loadDataBank'
     };
@@ -52,6 +53,7 @@ function loadDataInventory(){
                 tr += '</tr>';
              })
              $('#table tbody').append(tr);
+             $('#total').append(`total $${data.total}`);
         },
          error : function(data){
             console.log(data);

@@ -5,7 +5,6 @@ if($_GET['id'] == null){
     return;
 }else{
 }
-if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
   $idC = $_GET['id'];
   $admin = $_SESSION['admin_id'];
   $query = "SELECT * FROM `inventory` WHERE id = '$idC' AND userId = '$admin'";
@@ -70,9 +69,6 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
 <?php 
 }else{
   header('location: ./');
-}
-}else{
-  header('location: index.php');
 }
 include 'footer.php';
 ?>

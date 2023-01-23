@@ -282,6 +282,10 @@ function registerPay($db){
 function deletePay($db){
     $data =array();
     extract($_POST);
+    $role = $_SESSION['role'];
+    if($role == 'word'){
+        $data = array('status' => false, 'data' => 'not allowed to delete');
+    }else{
     $query1 = "DELETE FROM `product` WHERE id = '$id'";
     $coon1 = $db->query($query1);
     if($coon1){
@@ -289,6 +293,7 @@ function deletePay($db){
     }else{
         $data = array('status' => false, 'data' => $db->error);
     }
+}
     echo json_encode($data);
 }
 function updatePay($db){

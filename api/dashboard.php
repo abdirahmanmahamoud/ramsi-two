@@ -52,7 +52,7 @@ function Customers($db){
     $date = array();
     $mess = array();
     $admin_ID = $_SESSION['admin_id'];
-    $query = "SELECT fullName,phone,balance(id)balance FROM `customer` WHERE userid = '3' ORDER BY balance DESC LIMIT 5";
+    $query = "SELECT fullName,phone,balance(id)balance FROM `customer` WHERE userid = '$admin_ID' ORDER BY balance DESC LIMIT 5";
     $coon = $db->query($query);
     if($coon){
         while($row = $coon->fetch_assoc()){

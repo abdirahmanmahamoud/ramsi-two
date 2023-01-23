@@ -30,6 +30,10 @@ function updateInventory($db){
 function deleteInventory($db){
     $data =array();
     extract($_POST);
+    $role = $_SESSION['role'];
+    if($role == 'word'){
+        $data = array('status' => false, 'data' => 'not allowed to delete');
+    }else{
     $query1 = "DELETE FROM `inventory` WHERE id = '$id'";
     $coon1 = $db->query($query1);
     if($coon1){
@@ -37,6 +41,7 @@ function deleteInventory($db){
     }else{
         $data = array('status' => false, 'data' => $db->error);
     }
+}
     echo json_encode($data);
 }
 function loadDataInventory($db){
@@ -142,11 +147,26 @@ function loadDataBank($db){
             );
             $date [] = $dateArray;
         }
-        $mess = array('status' => true,'data' => $date);
+        $mess = array('status' => true,'data' => $date,'total' => bank($db));
     }else{
         $mess = array('status' => false, 'data' => $db->error);
     }
     echo json_encode($mess);
+}
+function bank($db){
+    $admin_ID = $_SESSION['admin_id'];
+    $query = "SELECT SUM(amount)amount FROM `bank` WHERE user_id = '$admin_ID' AND type = 'deposit'";
+    $coon = $db->query($query);
+    if($coon){
+        $row = $coon->fetch_assoc(); 
+        $query1 = "SELECT SUM(amount)amount FROM `bank` WHERE user_id = '$admin_ID' AND type = 'withdraw'";
+        $coon1 = $db->query($query1);  
+        if($coon1){
+            $row11 = $coon1->fetch_assoc();
+            $re = $row['amount'] - $row11['amount'];
+            return $re;
+        }
+    }
 }
 function loadDataBankId($db){
     $id = $_POST['id'];
@@ -188,6 +208,10 @@ function updateBank($db){
 function deleteBank($db){
     $data =array();
     extract($_POST);
+    $role = $_SESSION['role'];
+    if($role == 'word'){
+        $data = array('status' => false, 'data' => 'not allowed to delete');
+    }else{
     $query1 = "DELETE FROM `bank` WHERE id = '$id'";
     $coon1 = $db->query($query1);
     if($coon1){
@@ -195,6 +219,7 @@ function deleteBank($db){
     }else{
         $data = array('status' => false, 'data' => $db->error);
     }
+}
     echo json_encode($data);
 }
 

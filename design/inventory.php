@@ -1,6 +1,5 @@
 <?php
 include './header.php';
-if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
 ?>
 <div class="i-name">
 inventory
@@ -57,9 +56,6 @@ inventory
 </div>
 </div>
 <?php
-}else{
-  header('location: index.php');
-}
 include './footer.php';
 ?>
 <script src="../js/inventory.js"></script>

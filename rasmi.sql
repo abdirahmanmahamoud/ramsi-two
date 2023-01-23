@@ -83,10 +83,10 @@ CREATE TABLE `groupproduct` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `groupproductstore`
+-- Table structure for table `groupproductStore`
 --
 
-CREATE TABLE `groupproductstore` (
+CREATE TABLE `groupproductStore` (
   `id` varchar(32) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `storeId` varchar(32) NOT NULL
@@ -127,10 +127,10 @@ CREATE TABLE `product` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `productstore`
+-- Table structure for table `productStore`
 --
 
-CREATE TABLE `productstore` (
+CREATE TABLE `productStore` (
   `id` int(11) NOT NULL,
   `group_id` varchar(40) NOT NULL,
   `type` varchar(40) NOT NULL,
@@ -211,9 +211,9 @@ ALTER TABLE `groupproduct`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `groupproductstore`
+-- Indexes for table `groupproductStore`
 --
-ALTER TABLE `groupproductstore`
+ALTER TABLE `groupproductStore`
   ADD UNIQUE KEY `id` (`id`);
 
 --
@@ -229,9 +229,9 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `productstore`
+-- Indexes for table `productStore`
 --
-ALTER TABLE `productstore`
+ALTER TABLE `productStore`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -281,9 +281,9 @@ ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `productstore`
+-- AUTO_INCREMENT for table `productStore`
 --
-ALTER TABLE `productstore`
+ALTER TABLE `productStore`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

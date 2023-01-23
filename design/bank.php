@@ -6,6 +6,7 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
 Bank
 </div>
 <div class="padding-main">
+  <p class="fs-4" id="total"></p>
     <button class="btn btn-primary" id="add">Add New</button>
     <table class="table table-color" id="table">
         <thead>

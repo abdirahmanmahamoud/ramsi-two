@@ -6,7 +6,10 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
 Vendors
 </div>
 <div class="padding-main">
-    <div class="row" style="margin-bottom: 20px;">
+<div class="row" style="margin-bottom: 20px;">
+      <div class="col-sm-12">
+      <input type="text" name="search" id="search" placeholder="Search Vendors phone" class='form-control' required>
+      </div>
     </div>
     <button class="btn btn-primary" id="add">Add New</button>
     <table class="table table-color" id="table">

@@ -106,6 +106,30 @@ function registerOutgoing($db){
     echo json_encode($data);
 }
 
+function searchStore($db){
+    $date = array();
+    $mess = array();
+    $id = $_SESSION['admin_id'];
+    $search = $_POST['search'];
+    $query = "SELECT `id`, `storeName`,`storePhone`, `storeBalance` FROM `storename` WHERE storePhone LIKE '$search%' AND userid = '$id'";
+    $coon = $db->query($query);
+    if($coon){
+        while($row = $coon->fetch_assoc()){
+            $dateArray = array(
+                'id' => $row['id'],
+                'storeName' => $row['storeName'],
+                'storePhone' => $row['storePhone'],
+                'storeBalance' => '$'.$row['storeBalance']
+            );
+            $date [] = $dateArray;
+        }
+        $mess = array('status' => true,'data' => $date);
+    }else{
+        $mess = array('status' => false, 'data' => $db->error);
+    }
+    echo json_encode($mess);
+}
+
 function groupId($db){
     $new_id ='';
     $data = array();
@@ -216,7 +240,11 @@ function registerPay($db){
 }
 function deletePay($db){
     $data =array();
+    $role = $_SESSION['role'];
     extract($_POST);
+    if($role == 'word'){
+        $data = array('status' => false, 'data' => 'not allowed to delete');
+    }else{
     $query1 = "DELETE FROM `productStore` WHERE id = '$store_id'";
     $coon1 = $db->query($query1);
     if($coon1){
@@ -224,6 +252,7 @@ function deletePay($db){
     }else{
         $data = array('status' => false, 'data' => $db->error);
     }
+}
     echo json_encode($data);
 }
 function updatePay($db){

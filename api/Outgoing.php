@@ -8,19 +8,28 @@ function OutgoingSreg($db,$names,$qtys){
         $coonT = $db->query($queryT);
         if($coonT){
             $row = $coonT->fetch_assoc();
-            if($row['qty'] >= $qtys[$i]){
-                $successS [] = array(
-                    'name' => $names[$i],
-                    'qty' => $qtys[$i],
-                    'price' => $row['price'] * $qtys[$i]
+            if($row == null){
+                $errorS [] = array(
+                    'type' => 'null',
+                    'name' => $names[$i]
                 );
             }else{
-                $errorS [] = array(
-                    'name' => $names[$i],
-                    'qty' => $qtys[$i],
-                    'qtyAction' => $row['qty']
-                );
+                if($row['qty'] >= $qtys[$i]){
+                    $successS [] = array(
+                        'name' => $names[$i],
+                        'qty' => $qtys[$i],
+                        'price' => $row['price'] * $qtys[$i]
+                    );
+                }else{
+                    $errorS [] = array(
+                        'type' => 'qty',
+                        'name' => $names[$i],
+                        'qty' => $qtys[$i],
+                        'qtyAction' => $row['qty']
+                    );
+                }
             }
+           
         }
     }
     if(count($successS) > 0 && count($errorS) == 0){
@@ -184,7 +193,6 @@ function proUpdate($db,$successS){
 function OutgoingDele($db,$id){
     $successS = [];
     $errorS = [];
-    $dataTwo = array();
     $query = "SELECT * FROM `product` WHERE group_id = '$id'";
     $coon = $db->query($query);
     if($coon){
@@ -213,6 +221,6 @@ function OutgoingDele($db,$id){
         $ret = 321;
         return $ret;
     }elseif(count($errorS) > 0){
-     }    
+    }  
 }
 ?>

@@ -13,8 +13,8 @@ function dashboard(){
           let html ='';
           if(status){
             $('#Customers').append(per.customersNumber)
-            $('#Reading').append(`$${per.outgoing}`)
-            $('#Payment').append(`$${per.Incoming}`)
+            $('#Reading').append(`$${per.outgoing ? per.outgoing : '0'}`)
+            $('#Payment').append(`$${per.Incoming ? per.Incoming : '0'}`)
             $('#user').append(`$${per.bank}`)
           }
 

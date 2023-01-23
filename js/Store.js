@@ -29,6 +29,43 @@ $('#formData').submit(function(event){
          },
      })
 })
+$("#search").keyup(function(){
+    let search = $('#search').val();
+    $('#table tbody').html('');
+    let data = {
+        'search' : search,
+        'action' : 'searchStore'
+    }
+    $.ajax({
+        method : 'POST',
+        dataType : 'JSON',
+        url :  '../api/Store.php',
+        data :  data,
+        success : function(data){
+            let status = data.status;
+            let response = data.data;
+            let html = '';
+            let tr = '';
+
+            if(status){
+                response.forEach(item =>{
+                   tr += '<tr>';
+                   for(let i in item){
+                    if(i == 'id'){
+                    }else{
+                        tr += `<td><a href="../design/Stores.php?id=${item['id']}"class='aName'>${item[i]}</a></td>`;
+                    }
+                   }
+                  
+                })
+                $('#table tbody').append(tr);
+             }
+         },
+         error : function(data){
+            console.log(data);
+         },
+     })
+});
 loadDataStore();
 function loadDataStore(){
     $('#table tbody').html('');

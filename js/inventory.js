@@ -83,7 +83,7 @@ $("#search").keyup(function(){
                    for(let i in item){
                     if(i == 'id'){
                     }else{
-                        tr += `<td><a href="../design/inventoryS.phpid=${item['id']}"class='aName'>${item[i]}</a></td>`;
+                        tr += `<td><a href="../design/inventoryS.php?id=${item['id']}"class='aName'>${item[i]}</a></td>`;
                     }
                    }
                   

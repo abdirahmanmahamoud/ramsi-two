@@ -34,7 +34,7 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
 </div>
 <div style="margin-top: 30px;">
   <button class="btn btn-primary" id="aadOutgoing">Outgoing</button>
-  <button class="btn btn-su ccess" id='Payment'>Payment</button>
+  <button class="btn btn-success" id='Payment'>Payment</button>
 </div>
 <h4 class="fs-4 p-3">Reading</h4>
 <table class="table" style="margin-top: 15px; margin-left: 5px;" id="table">

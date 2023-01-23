@@ -37,6 +37,7 @@ function fethCustomerInfo(id){
     })
 }
 function nameInputS(){
+    $('#datalistOptions').html('');
     let send ={
        'action' :  'loadDataInventory'
     }
@@ -113,8 +114,13 @@ $('#fromOutgoing').submit(function(event){
             if(data.status == false){
                 let alert = $('.alertInfo');
                 data.data[0].data.forEach(item =>{
+                    if(item.type == 'qty'){
                     let danger = `<div class="alert alert-danger">There are ${item.qtyAction} pieces of ${item.name}</div>`;
                     alert.append(danger);
+                    }else{
+                        let danger = `<div class="alert alert-danger">representative products ${item.name}</div>`;
+                        alert.append(danger);
+                    }
                 })
             }else{
                 alertInfo(data.status,data.data,'modalOutgoing','fromOutgoing');
@@ -275,6 +281,7 @@ $('#close').click(function(){
 $('#aadOutgoing').click(function(){
     $('#modalOutgoing').modal('show');
     $('.alertInfo').html('');
+    nameInputS();
 })
 $('#Payment').click(function(){
     $('#modalPayment').modal('show');

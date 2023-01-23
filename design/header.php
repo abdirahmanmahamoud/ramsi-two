@@ -24,8 +24,10 @@ if(!$_SESSION['role']){
         </div>
         <div class="item">
             <?php if($_SESSION['role'] == 'word'){?>
+            <li><a href="index.php"><i class="fa-solid fa-home"></i>Dashboard</a></li>
             <li><a href="./customer.php"><i class="fa-solid fa-users"></i>Customers</a></li>
             <li><a href="Transactions.php"><i class="fa-regular fa-credit-card"></i>Transactions</a></li>
+            <li><a href="inventory.php"><i class="fa-solid fa-warehouse"></i></i>inventory</a></li>
             <?php }else if($_SESSION['role'] == 'admin'){?>
             <li><a href="index.php"><i class="fa-solid fa-home"></i>Dashboard</a></li>
             <li><a href="customer.php"><i class="fa-solid fa-users"></i>Customers</a></li>
