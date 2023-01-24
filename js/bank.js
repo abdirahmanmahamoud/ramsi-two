@@ -1,5 +1,5 @@
 $('#add').click(function(){
-    $('#modal').modal('show');
+    $('#modalBank').modal('show');
     $('#formData')[0].reset();
 })
 $('#formData').submit(function(e){
@@ -18,9 +18,8 @@ $('#formData').submit(function(e){
         data :  sendData,
         success : function(data){
            if(data.status == true){
-            $('#modal').modal('hide');
+            $('#modalBank').modal('hide');
             $('#formData')[0].reset();
-            loadDataInventory();
            }
          },
          error : function(data){
@@ -28,18 +27,43 @@ $('#formData').submit(function(e){
          },
      })
 })
-loadDataInventory();
-function loadDataInventory(){
+$('#fromdate').attr('disabled',true);
+$('#todate').attr('disabled',true);
+
+$('#typeSelect').on('change',function(){
+    if($('#typeSelect').val() == 0){
+        $('#fromdate').attr('disabled',true);
+        $('#todate').attr('disabled',true);
+    }else{
+        $('#fromdate').attr('disabled',false);
+        $('#todate').attr('disabled',false);
+    }
+})
+$('#formDataBank').submit(function (event) {
+    event.preventDefault();
     $('#table tbody').html('');
     $('#total').html('');
-    let dataSend = {
-        'action' : 'loadDataBank'
-    };
+    let fromdate = $('#fromdate').val();
+    let todate = $('#todate').val();
+    let data = '';
+    if($('#typeSelect').val() == 0){
+        data ={
+            'fordate' : '',
+            'todate' : '',
+            'action' : 'loadDataBank',
+          }
+    }else{
+        data ={
+            'fordate' : fromdate,
+            'todate' : todate,
+            'action' : 'loadDataBank',
+          }
+    }
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
         url :  '../api/inventory.php',
-        data :  dataSend,
+        data :  data,
         success : function(data){
             let tr = '';
             data.data.forEach(item =>{
@@ -52,11 +76,12 @@ function loadDataInventory(){
                 }
                 tr += '</tr>';
              })
+             let html = `<p class="fs-4 shadow bg-white rounded mt-2 mb-0 text-center" style="height: 30px;display: flex; align-content: center;justify-content: center;margin-bottom: 2px;">total $${data.total ? data.total : '0'}</p>`
              $('#table tbody').append(tr);
-             $('#total').append(`total $${data.total}`);
+             $('#total').append(html);
         },
          error : function(data){
             console.log(data);
          },
      })
-}
+})

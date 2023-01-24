@@ -290,7 +290,6 @@ function all(id){
              $('#Amount').val(per[0].price);
              $('#idPay').val(per[0].id);
              $('#modalPayment').modal('show');
-             btn = 'update';
           }
         },
         error : function(data){

@@ -6,7 +6,24 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
 Bank
 </div>
 <div class="padding-main">
-  <p class="fs-4" id="total"></p>
+<form id="formDataBank">
+    <div class="row">
+        <div class="col-sm-4">
+            <select name="typeSelect" id="typeSelect" class="form-control mt-2">
+                <option value="0">All</option>
+                <option value="custon">Custon</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+        <input type="date" name="fromdate" id="fromdate" class='form-control mt-2'>
+        </div>
+        <div class="col-sm-4">
+        <input type="date" name="todate" id="todate" class='form-control mt-2'>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">summit</button>
+</form>
+    <div id="total" style="margin: auto; width: 160px; height: 30px;"></div>
     <button class="btn btn-primary" id="add">Add New</button>
     <table class="table table-color" id="table">
         <thead>
@@ -20,11 +37,11 @@ Bank
         <tbody>
         </tbody>
     </table>
-    <div class="modal" id="modal" tabindex="-1">
+    <div class="modal" id="modalBank" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add inventory</h5>
+        <h5 class="modal-title">Add Bank</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

@@ -5,10 +5,11 @@ session_start();
 function registerOutgoing($db){
     $data =array();
     extract($_POST);
+    $adminId = $_SESSION['admin_id'];
     $success = array();
     $error = array();
     include './Outgoing.php';
-    $OutgoingSre = OutgoingSreg($db,$names,$qtys);
+    $OutgoingSre = OutgoingSreg($db,$names,$qtys,$adminId);
     if($OutgoingSre['code'] == 321){
         $pro = $OutgoingSre['data'];
         $groupId = groupId($db);
@@ -19,7 +20,7 @@ function registerOutgoing($db){
             $total = $pro[$i]['qty'] * $pro[$i]['price'];
             $namePRO = $pro[$i]['name'];
             $qtyPRO = $pro[$i]['qty'];
-            $query = "INSERT INTO `product`( `group_id`, `type`, `customer_id`, `name`, `qty`, `price`) VALUES ('$groupId','outgoing','$customer_id','$namePRO','$qtyPRO','$total')";
+            $query = "INSERT INTO `product`( `group_id`, `type`, `customer_id`, `name`, `qty`, `price`,`userId`) VALUES ('$groupId','outgoing','$customer_id','$namePRO','$qtyPRO','$total','$adminId')";
             $coon = $db->query($query);
                 if($coon){
                     $success [] = array('status' => true,'data' => 'Registered Successfully'); 
@@ -181,10 +182,11 @@ function groupFrom($db){
 function update($db){
     $data =array();
     extract($_POST);
+    $adminId = $_SESSION['admin_id'];
     $success = array();
     $error = array();
     include 'Outgoing.php';
-    $OutgoingSre = OutgoingUp($db,$names,$qtys,$id);
+    $OutgoingSre = OutgoingUp($db,$names,$qtys,$id,$adminId);
     if($OutgoingSre['code'] == 321){
     $pro = $OutgoingSre['data'];
     for($i = 0; $i < count($pro); $i++){

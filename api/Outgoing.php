@@ -1,10 +1,10 @@
 <?php
-function OutgoingSreg($db,$names,$qtys){
+function OutgoingSreg($db,$names,$qtys,$adminId){
     $successS = [];
     $errorS = [];
     $dataTwo = array();
     for($i = 0; $i < count($names); $i++){
-        $queryT = "SELECT name,qty,price FROM `inventory` WHERE name = '$names[$i]' ";
+        $queryT = "SELECT name,qty,price FROM `inventory` WHERE name = '$names[$i]' AND userId = '$adminId'";
         $coonT = $db->query($queryT);
         if($coonT){
             $row = $coonT->fetch_assoc();
@@ -18,7 +18,7 @@ function OutgoingSreg($db,$names,$qtys){
                     $successS [] = array(
                         'name' => $names[$i],
                         'qty' => $qtys[$i],
-                        'price' => $row['price'] * $qtys[$i]
+                        'price' => $row['price']
                     );
                 }else{
                     $errorS [] = array(
@@ -33,23 +33,23 @@ function OutgoingSreg($db,$names,$qtys){
         }
     }
     if(count($successS) > 0 && count($errorS) == 0){
-        $Product = kajar($db,$successS);
+        $Product = kajar($db,$successS,$adminId);
         $dataTwo = array('code' => 321,'data' => $Product);
     }elseif(count($errorS) > 0){
         $dataTwo  = array('code' => 404, 'data' => $errorS);
     }
     return $dataTwo;
 }
-function kajar($db,$successS){
+function kajar($db,$successS,$adminId){
     $dates = [];
     for($S = 0; $S < count($successS); $S++){
         $ProductName = $successS[$S]['name'];
-        $queryT = "SELECT name,qty,price FROM `inventory` WHERE name = '$ProductName' ";
+        $queryT = "SELECT name,qty,price FROM `inventory` WHERE name = '$ProductName' AND userId = '$adminId'";
         $coonT = $db->query($queryT);
         if($coonT){
             $row = $coonT->fetch_assoc();
             $qtyProductS = $row['qty'] - $successS[$S]['qty'];
-            $query = "UPDATE `inventory` SET `qty`='$qtyProductS' WHERE name = '$ProductName'";
+            $query = "UPDATE `inventory` SET `qty`='$qtyProductS' WHERE name = '$ProductName' AND userId = '$adminId'";
             $coon = $db->query($query);
             if($coon){
                 $dates [] = array(
@@ -64,18 +64,18 @@ function kajar($db,$successS){
     return $dates;
 }
 // update functions
-function OutgoingUp($db,$names,$qtys,$id){
+function OutgoingUp($db,$names,$qtys,$id,$adminId){
     $successS = [];
     $errorS = [];
     $dataTwo = array();
     for($i = 0; $i < count($names); $i++){
-        $queryS = "SELECT name,qty FROM `product` WHERE id = '$id[$i]'";
+        $queryS = "SELECT name,qty FROM `product` WHERE id = '$id[$i]' AND userId = '$adminId'";
         $coonS = $db->query($queryS);
         if($coonS){
             $rowS = $coonS->fetch_assoc();
             $nameFrom = $names[$i];
             if($rowS['name'] == $nameFrom){
-                $queryT = "SELECT name,qty,price FROM `inventory` WHERE name = '$names[$i]' ";
+                $queryT = "SELECT name,qty,price FROM `inventory` WHERE name = '$names[$i]'  AND userId = '$adminId'";
                 $coonT = $db->query($queryT);
                 if($coonT){
                     $row = $coonT->fetch_assoc();
@@ -101,7 +101,7 @@ function OutgoingUp($db,$names,$qtys,$id){
                     }
                 }
             }else{
-                $queryT = "SELECT name,qty,price FROM `inventory` WHERE name = '$names[$i]' ";
+                $queryT = "SELECT name,qty,price FROM `inventory` WHERE name = '$names[$i]'  AND userId = '$adminId'";
                 $coonT = $db->query($queryT);
                 if($coonT){
                     $row = $coonT->fetch_assoc();
@@ -130,35 +130,35 @@ function OutgoingUp($db,$names,$qtys,$id){
       
     }
     if(count($successS) > 0 && count($errorS) == 0){
-       $Product = proUpdate($db,$successS);
+       $Product = proUpdate($db,$successS,$adminId);
         $dataTwo = array('code' => 321,'data' => $Product);
     }elseif(count($errorS) > 0){
         $dataTwo  = array('code' => 404, 'data' => $errorS);
     }
     return $dataTwo;
 }
-function proUpdate($db,$successS){
+function proUpdate($db,$successS,$adminId){
     $dates = [];
     for($S = 0; $S < count($successS); $S++){
         $type = $successS[$S]['qtyTu']['type'];
         if($type == 'inProduct'){
             $name = $successS[$S]['qtyTu']['name'];
             $qty = $successS[$S]['qtyTu']['qty'];
-            $queryS = "SELECT name,qty FROM `inventory` WHERE name = '$name'";
+            $queryS = "SELECT name,qty FROM `inventory` WHERE name = '$name'  AND userId = '$adminId'";
             $coonS = $db->query($queryS);
             if($coonS){
                 $rowS = $coonS->fetch_assoc();
                 $tQty = $rowS['qty'] + $qty;
-                $query = "UPDATE `inventory` SET `qty`='$tQty' WHERE name = '$name'";
+                $query = "UPDATE `inventory` SET `qty`='$tQty' WHERE name = '$name'  AND userId = '$adminId'";
                 $coon = $db->query($query);
                 if($coon){
                     $ProductName = $successS[$S]['name'];
-                    $queryTK = "SELECT name,qty,price FROM `inventory` WHERE name = '$ProductName' ";
+                    $queryTK = "SELECT name,qty,price FROM `inventory` WHERE name = '$ProductName'  AND userId = '$adminId'";
                     $coonTK = $db->query($queryTK);
                    if($coonTK){
                     $rowTK = $coonTK->fetch_assoc();
                     $ProductQty = $rowTK['qty'] - $successS[$S]['qty'];
-                    $queryI = "UPDATE `inventory` SET `qty`='$ProductQty' WHERE name = '$ProductName'";
+                    $queryI = "UPDATE `inventory` SET `qty`='$ProductQty' WHERE name = '$ProductName'  AND userId = '$adminId'";
                     $coonI = $db->query($queryI);
                     if($coonI){
                         $dates [] = array(
@@ -174,7 +174,7 @@ function proUpdate($db,$successS){
         }else{
             $qty = $successS[$S]['qtyTu']['qty'];
             $ProductName = $successS[$S]['name']; 
-            $query = "UPDATE `inventory` SET `qty`='$qty' WHERE name = '$ProductName'";
+            $query = "UPDATE `inventory` SET `qty`='$qty' WHERE name = '$ProductName'  AND userId = '$adminId'";
             $coon = $db->query($query);
             if($coon){
                 $dates [] = array(
