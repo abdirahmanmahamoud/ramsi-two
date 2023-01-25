@@ -2,6 +2,18 @@ $('#add').click(function(){
     $('#modal').modal('show');
     $('#formData')[0].reset();
 })
+$('#export').on('click', function() {
+    let dateTime = new Date();
+    let NowDate = dateTime.getDate();
+    let NowMonthNub = dateTime.getMonth();
+    let NowYear = dateTime.getFullYear();
+    let NowDateExport = `${NowDate}/${NowMonthNub +1}/${NowYear}`;
+    let file = new Blob([$('#export-table').html()], {type:"application/vnd.ms-excel"});
+    let url = URL.createObjectURL(file);
+    let a = $("<a />", {
+      href: url,
+      download: `${NowDateExport}.xls`}).appendTo("body").get(0).click();
+});
 $('#formData').submit(function(event){
     event.preventDefault();
     let storeName = $('#storeName').val();
@@ -46,19 +58,18 @@ $("#search").keyup(function(){
             let response = data.data;
             let html = '';
             let tr = '';
-
             if(status){
                 response.forEach(item =>{
-                   tr += '<tr>';
-                   for(let i in item){
-                    if(i == 'id'){
-                    }else{
-                        tr += `<td><a href="../design/Stores.php?id=${item['id']}"class='aName'>${item[i]}</a></td>`;
+                    tr += '<tr>';
+                    for(let i in item){
+                     if(i == 'id'){
+                     }else{
+                         tr += `<td><a href="../design/Stores.php?id=${item['id']}"class='aName'>${item[i]}</a></td>`;
+                     }
                     }
-                   }
-                  
-                })
-                $('#table tbody').append(tr);
+                   
+                 })
+                 $('#table tbody').append(tr);
              }
          },
          error : function(data){
@@ -69,6 +80,7 @@ $("#search").keyup(function(){
 loadDataStore();
 function loadDataStore(){
     $('#table tbody').html('');
+    $('#tableExport tbody').html('');
     let dataSend = {
         'action' : 'loadDataStore'
     };
@@ -79,17 +91,20 @@ function loadDataStore(){
         data :  dataSend,
         success : function(data){
             let tr = '';
+            let trExport = '';
             data.data.forEach(item =>{
                 tr += '<tr>';
                 for(let i in item){
                  if(i == 'id'){
                  }else{
                      tr += `<td><a href="../design/Stores.php?id=${item['id']}"class='aName'>${item[i]}</a></td>`;
+                     trExport += `<td>${item[i]}</td>`;
                  }
                 }
                
              })
              $('#table tbody').append(tr);
+             $('#tableExport tbody').append(trExport);
         },
          error : function(data){
             console.log(data);

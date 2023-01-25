@@ -12,17 +12,31 @@ Vendors
       </div>
     </div>
     <button class="btn btn-primary" id="add">Add New</button>
+    <button class="btn btn-success" id="export">Export</button>
     <table class="table table-color" id="table">
         <thead>
             <tr>
                 <th>Vendors Name</th>
-                <th>Vendors phone</th>
+                <th>Vendors Phone</th>
                 <th>Balance</th>
             </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
+    <div id="export-table" class="d-none">
+    <table class="table table-color" id="tableExport">
+        <thead>
+            <tr>
+                <th>Vendors Name</th>
+                <th>Vendors Phone</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    </div>
     <div class="modal" id="modal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
