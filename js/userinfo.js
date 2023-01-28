@@ -117,7 +117,7 @@ $('#fromPassword').submit(function(event){
 })
 
 $('#deleteBtn').click(function(){
-    if(confirm('Im not sure')){
+    if(confirm('Are you sure to delete')){
         deleteUser(userId);
     }   
 })

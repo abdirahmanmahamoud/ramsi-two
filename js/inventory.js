@@ -12,7 +12,7 @@ $('#export').on('click', function() {
     let url = URL.createObjectURL(file);
     let a = $("<a />", {
       href: url,
-      download: `${NowDateExport}.xls`}).appendTo("body").get(0).click();
+      download: `Inventory  ${NowDateExport}.xls`}).appendTo("body").get(0).click();
 });
 $('#formData').submit(function(e){
     e.preventDefault();

@@ -11,7 +11,7 @@ if(!$_SESSION['role']){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rasmi</title>
+    <title>Rasmi Acounting System</title>
     <link rel="icon" href="../assets/images/logo.png">
     <link rel="stylesheet" href="../assets/fontawesome/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -32,13 +32,13 @@ if(!$_SESSION['role']){
             <li><a href="index.php"><i class="fa-solid fa-home"></i>Dashboard</a></li>
             <li><a href="customer.php"><i class="fa-solid fa-users"></i>Customers</a></li>
             <li><a href="Transactions.php"><i class="fa-regular fa-credit-card"></i>Transactions</a></li>
-            <li><a href="user.php"><i class="fa-solid fa-user"></i>users</a></li>
-            <li><a href="inventory.php"><i class="fa-solid fa-warehouse"></i></i>inventory</a></li>
+            <li><a href="user.php"><i class="fa-solid fa-user"></i>Users</a></li>
+            <li><a href="inventory.php"><i class="fa-solid fa-warehouse"></i></i>Inventory</a></li>
             <li><a href="./Store.php"><i class="fa-solid fa-store"></i>Vendors</a></li>
             <li><a href="./bank.php"><i class="fa-solid fa-building-columns"></i>Bank</a></li>
             <li><a href="companyProfile.php"><i class="fa-solid fa-tv"></i>My Profile</a></li>
             <?php }else if($_SESSION['role'] == 'super'){?>
-            <li><a href="customer.php"><i class="fa-solid fa-home"></i>Dashboard</a></li>
+            <li><a href="index.php"><i class="fa-solid fa-home"></i>Dashboard</a></li>
             <li><a href="customer.php"><i class="fa-solid fa-users"></i>Customers</a></li>
             <li><a href="Transactions.php"><i class="fa-regular fa-credit-card"></i>Transactions</a></li>
             <li><a href="user.php"><i class="fa-solid fa-user"></i>users</a></li>
@@ -67,6 +67,6 @@ if(!$_SESSION['role']){
             <div class="name"><?php echo $_SESSION['fullName'];?></div>
             <a href="loginin.php" class="link-profile">
                 <i class="fa-solid fa-right-to-bracket"></i>
-                <div class="link-name">login out</div>
+                <div class="link-name">Sign out</div>
             </a>
         </div>

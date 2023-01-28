@@ -12,7 +12,7 @@ $('#export').on('click', function() {
     let url = URL.createObjectURL(file);
     let a = $("<a />", {
       href: url,
-      download: `${NowDateExport}.xls`}).appendTo("body").get(0).click();
+      download: `Vendor ${NowDateExport}.xls`}).appendTo("body").get(0).click();
 });
 $('#formData').submit(function(event){
     event.preventDefault();
@@ -93,7 +93,8 @@ function loadDataStore(){
             let tr = '';
             let trExport = '';
             data.data.forEach(item =>{
-                tr += '<tr>';
+                tr += '<tr>'; 
+                trExport += '<tr>'; 
                 for(let i in item){
                  if(i == 'id'){
                  }else{
@@ -105,6 +106,8 @@ function loadDataStore(){
              })
              $('#table tbody').append(tr);
              $('#tableExport tbody').append(trExport);
+             $('#totals').append(`Total $${data.totalPrice}`)
+             $('#totalsE').append(`Total $${data.totalPrice}`)
         },
          error : function(data){
             console.log(data);

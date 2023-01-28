@@ -3,7 +3,7 @@ include './header.php';
 if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
 ?>
 <div class="i-name">
-Bank
+Bank information
 </div>
 <div class="padding-main">
 <form id="formDataBank">
@@ -11,7 +11,7 @@ Bank
         <div class="col-sm-4">
             <select name="typeSelect" id="typeSelect" class="form-control mt-2">
                 <option value="0">All</option>
-                <option value="custon">Custon</option>
+                <option value="custon">Custom</option>
             </select>
         </div>
         <div class="col-sm-4">
@@ -21,11 +21,11 @@ Bank
         <input type="date" name="todate" id="todate" class='form-control mt-2'>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary mt-2">summit</button>
+    <button type="submit" class="btn btn-warning mt-3">Check Balance</button>
 </form>
-    <div id="total" style="margin: auto; width: 160px; height: 30px;"></div>
-    <button class="btn btn-primary" id="add">Add New</button>
-    <button class="btn btn-success" id="export">Export</button>
+    <div id="total" style="margin: left; width: 160px; height: 30px;"></div>
+    <button class="btn btn-primary mt-3" id="add">Add New</button>
+    <button class="btn btn-success mt-3" id="export">Export</button>
     <table class="table table-color" id="table">
         <thead>
             <tr>
@@ -56,7 +56,7 @@ Bank
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add Bank</h5>
+        <h5 class="modal-title">Form</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -69,8 +69,8 @@ Bank
           <div class="mb-3">
               <label class="form-label">Type</label>
               <select name="type" id="type" class="form-control">
-                    <option value="deposit">deposit the money</option>
-                    <option value="withdraw">withdraw the money</option>
+                    <option value="deposit">Deposit</option>
+                    <option value="withdraw">Withdraw</option>
                 </select>
           </div>
           <div class="mb-3">
@@ -80,7 +80,7 @@ Bank
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </form>
       </div>
     </div>

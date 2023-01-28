@@ -22,7 +22,7 @@ function dashboard($db){
                     'customersNumber' => $row['customersNumber'],
                     'outgoing' => $row_['price'],
                     'Incoming' => $row_2['price'],
-                    'bank' => bank($admin_ID,$db) + $row_2['price']
+                    'bank' => $row_['price'] - $row_2['price']
                 );
                 $mess = array('status' => true,'data' => $dataArr);
             }
@@ -33,20 +33,6 @@ function dashboard($db){
         $mess = array('status' => false, 'data' => $db->error);
     }
     echo json_encode($mess);
-}
-function bank($admin_ID,$db){
-    $query = "SELECT SUM(amount)amount FROM `bank` WHERE user_id = '$admin_ID' AND type = 'deposit'";
-    $coon = $db->query($query);
-    if($coon){
-        $row = $coon->fetch_assoc(); 
-        $query1 = "SELECT SUM(amount)amount FROM `bank` WHERE user_id = '$admin_ID' AND type = 'withdraw'";
-        $coon1 = $db->query($query1);  
-        if($coon1){
-            $row11 = $coon1->fetch_assoc();
-            $re = $row['amount'] - $row11['amount'];
-            return $re;
-        }
-    }
 }
 function Customers($db){
     $date = array();

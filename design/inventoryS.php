@@ -12,14 +12,14 @@ if($_GET['id'] == null){
   $sax = (mysqli_num_rows($conn));
   if($sax){
 ?>
-<div class="i-name">Customer info</div>
+<div class="i-name">Item Details</div>
 <div class="padding">
 <input type="hidden" id="customerId" value="<?php echo $_GET['id']; ?>">
 <button class="btn btn-primary float-right" id="updateBnt"><i class="fas fa-edit"></i></button>
 <button class="btn btn-danger float-right" id="deleteBtn"><i class="fas fa-trash"></i></button>
 <div class="col-sm-11" style="margin-top: 20px; ">
     <div class="row" style="border: 1px solid #000; margin-left: 1px;">
-      <div class="col-sm-2  py-1" style="border-right: 1px solid #000;">Name</div>
+      <div class="col-sm-2  py-1" style="border-right: 1px solid #000;">Nam</div>
       <span class="col-sm-9 py-1" id="name"></span>
   </div>
     <div class="row" style="border: 1px solid #000; margin-left: 1px;">

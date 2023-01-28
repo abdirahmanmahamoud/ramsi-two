@@ -20,10 +20,10 @@ if(isset($_SESSION['role'])){
         <div class="login">
         <div class="alertInfo"></div>
             <div class="header">
-                <h2>Login</h2>
+               <center><h2>Login Your Account</h2></center> 
             </div>
             <div class="body">
-                <form id="form">
+                <center><form id="form">
                     <div class="mb-3">
                         <label class="form-label">Phone Number</label>
                         <input type="text" name="phone" id="phone" class='form-control' required>
@@ -33,10 +33,10 @@ if(isset($_SESSION['role'])){
                         <input type="password" name="password" id="password" class='form-control' required>
                     </div>
                     <button type="submit" class="btn btn-primary mt-1" style="width: 100%" >Login</button>
-                </form>
+                </form></center>
             </div>
-            <div class="footer">
-                <p>Don’t have an account? <a href="register.php">Register</a></p>
+            <center><div class="footer">
+                <p>Don’t have an account? <a href="register.php">Register Here</a></p></center>
             </div>
         </div>
     </div>

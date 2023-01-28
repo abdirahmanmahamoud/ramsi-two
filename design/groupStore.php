@@ -6,7 +6,7 @@ if($_GET['id'] == null){
 $idC = $_GET['id'];
 ?>
 <div class="i-name">
-Product Group Info
+Product Details
 </div>
 <div class="padding-main">
 <input type="hidden" id="customerId" value="<?php echo $_GET['id']; ?>">
@@ -18,7 +18,7 @@ Product Group Info
                 <th>Date</th>
                 <th>Name</th>
                 <th>Qty</th>
-                <th>price</th>
+                <th>Price</th>
             </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@ Product Group Info
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add Customers</h5>
+        <h5 class="modal-title">Add Customer</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

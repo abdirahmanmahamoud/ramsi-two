@@ -95,7 +95,7 @@ function deleteFunction(customerId){
      })
 })
 $('#deleteBtn').click(function(){
-    if(confirm('Im not sure')){
+    if(confirm('Are you sure to delete')){
         deleteFunction(customerId);
     }
 })

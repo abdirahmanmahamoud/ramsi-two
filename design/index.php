@@ -16,21 +16,21 @@ include 'header.php';
                 <i class="fas fa-dollar-sign"></i>
                 <div>
                     <h3 id="Reading"></h3>
-                    <span>Money maker</span>
+                    <span>General debt</span>
                 </div>
             </div>
             <div class="val-box">
                 <i class="fas fa-dollar-sign"></i>
                 <div>
                     <h3 id="Payment"></h3>
-                    <span>the money is paid</span>
+                    <span>Paid debt</span>
                 </div>
             </div>
             <div class="val-box">
                 <i class="fas fa-dollar-sign"></i>
                 <div>
                     <h3 id="user"></h3>
-                    <span>Bank</span>
+                    <span>Unpaid debt</span>
                 </div>
             </div>
         </div>
@@ -38,8 +38,8 @@ include 'header.php';
             <table class="table" style="margin-top: 15px; margin-left: 5px;" id="table">
             <thead>
             <tr>
-                <th>full Name</th>
-                <th>phone</th>
+                <th>Full Name</th>
+                <th>Phone</th>
                 <th>Amount</th>
             </tr>
             </thead>

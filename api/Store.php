@@ -49,7 +49,7 @@ function loadDataStore($db){
             );
             $date [] = $dateArray;
         }
-        $mess = array('status' => true,'data' => $date);
+        $mess = array('status' => true,'data' => $date,'totalPrice' => totalPrice($db));
     }else{
         $mess = array('status' => false, 'data' => $db->error);
     }
@@ -84,12 +84,12 @@ function registerOutgoing($db){
     $success = array();
     $error = array();
     $groupId = groupId($db);
-    $query1 = "INSERT INTO `groupproductStore`(`id`, `storeId`) VALUES ('$groupId','$store_id')";
+    $query1 = "INSERT INTO `groupproductstore`(`id`, `storeId`) VALUES ('$groupId','$store_id')";
     $coon_group = $db->query($query1);
     if($coon_group){
     for($i = 0; $i < count($names); $i++){
         $total = $qtys[$i] * $prices[$i];
-        $query = "INSERT INTO `productStore`( `group_id`, `type`, `store_id`, `name`, `qty`, `price`) VALUES ('$groupId','outgoing','$store_id','$names[$i]','$qtys[$i]','$total')";
+        $query = "INSERT INTO `productstore`( `group_id`, `type`, `store_id`, `name`, `qty`, `price`) VALUES ('$groupId','outgoing','$store_id','$names[$i]','$qtys[$i]','$total')";
         $coon = $db->query($query);
             if($coon){
                 $success [] = array('status' => true,'data' => 'Registered Successfully'); 
@@ -134,7 +134,7 @@ function groupId($db){
     $new_id ='';
     $data = array();
     $mess = array();
-    $query = "SELECT * FROM `groupproductStore` ORDER BY id DESC LIMIT 1";
+    $query = "SELECT * FROM `groupproductstore` ORDER BY id DESC LIMIT 1";
     $coon = $db->query($query);
     if($coon){
             $row = $coon->fetch_assoc();
@@ -154,7 +154,7 @@ function loadData($db){
     $date = array();
     $mess = array();
     $storeId = $_POST['storeId'];
-    $query = "SELECT * FROM `groupproductStore` WHERE groupproductStore.storeId = '$storeId'";
+    $query = "SELECT * FROM `groupproductstore` WHERE groupproductstore.storeId = '$storeId'";
     $coon = $db->query($query);
     if($coon){
         while($row = $coon->fetch_assoc()){
@@ -182,7 +182,7 @@ function date_m($date_n,$date_type){
 function productNub($db,$id,$group_id){
     $date = array();
     $mess = array();
-    $query = "SELECT COUNT(*) nub FROM `productStore` WHERE store_id = '$id' AND group_id = '$group_id'";
+    $query = "SELECT COUNT(*) nub FROM `productstore` WHERE store_id = '$id' AND group_id = '$group_id'";
     $coon = $db->query($query);
     if($coon){
         $row = $coon->fetch_assoc();
@@ -196,11 +196,40 @@ function productNub($db,$id,$group_id){
 function productPrice($db,$id,$group_id){
     $date = array();
     $mess = array();
-    $query = "SELECT SUM(price)price FROM `productStore` WHERE store_id = '$id' AND group_id = '$group_id'";
+    $query = "SELECT SUM(price)price FROM `productstore` WHERE store_id = '$id' AND group_id = '$group_id'";
     $coon = $db->query($query);
     if($coon){
         $row = $coon->fetch_assoc();
         $price = $row['price'];
+    }else{
+        $mess = array('status' => false, 'data' => $db->error);
+    }
+    return $price;
+}
+function totalPrice($db){
+    $date = array();
+    $mess = array();
+    $AdminId = $_SESSION['admin_id'];
+    $query = "SELECT SUM(productstore.price)price FROM `storename`JOIN productstore ON storeName.id = productstore.store_id WHERE productstore.type = 'outgoing' AND storeName.userid = '$AdminId'";
+    $coon = $db->query($query);
+    if($coon){
+        $row = $coon->fetch_assoc();
+        $query1 = "SELECT SUM(productstore.price)price FROM `storename`JOIN productstore ON storeName.id = productstore.store_id WHERE productstore.type = 'Incoming' AND storeName.userid = '$AdminId'";
+        $coon1 = $db->query($query1);
+        $row1 = $coon1->fetch_assoc();
+        $priceoutgoing = '0';
+        if($row['price'] == null){
+            $priceoutgoing = '0';
+        }else{
+            $priceoutgoing = $row['price'];
+        }
+        $priceIncoming = '0';
+        if($row1['price'] == null){
+            $priceIncoming = '0';
+        }else{
+            $priceIncoming = $row['price'];
+        }
+        $price = $priceoutgoing - $priceIncoming;
     }else{
         $mess = array('status' => false, 'data' => $db->error);
     }
@@ -226,7 +255,7 @@ function registerPay($db){
     $data =array();
     extract($_POST);
     if(balancePrice($db,$store_id) >= $amount){
-        $query1 = "INSERT INTO `productStore`(`type`, `store_id`, `name`, `qty`, `price`) VALUES ('Incoming','$store_id','null','null','$amount')";
+        $query1 = "INSERT INTO `productstore`(`type`, `store_id`, `name`, `qty`, `price`) VALUES ('Incoming','$store_id','null','null','$amount')";
         $coon1 = $db->query($query1);
         if($coon1){
             $data = array('status' => true,'data' => 'Registered Successfully');
@@ -245,7 +274,7 @@ function deletePay($db){
     if($role == 'word'){
         $data = array('status' => false, 'data' => 'not allowed to delete');
     }else{
-    $query1 = "DELETE FROM `productStore` WHERE id = '$store_id'";
+    $query1 = "DELETE FROM `productstore` WHERE id = '$store_id'";
     $coon1 = $db->query($query1);
     if($coon1){
         $data = array('status' => true,'data' => 'Delete Successfully');
@@ -258,7 +287,7 @@ function deletePay($db){
 function updatePay($db){
     $data =array();
     extract($_POST);
-    $query1 = "UPDATE `productStore` SET `price`='$amount' WHERE id = '$id'";
+    $query1 = "UPDATE `productstore` SET `price`='$amount' WHERE id = '$id'";
     $coon1 = $db->query($query1);
     if($coon1){
         $data = array('status' => true,'data' => 'Update Successfully');
@@ -274,9 +303,9 @@ function loadDataPay($db){
     $store_id = $_POST['store_id'];
     $id = $_POST['id'];
     if($id == null){
-        $query = "SELECT id,date,price FROM `productStore` WHERE type = 'Incoming' AND store_id = '$store_id'";
+        $query = "SELECT id,date,price FROM `productstore` WHERE type = 'Incoming' AND store_id = '$store_id'";
     }else{
-        $query = "SELECT id,date,price FROM `productStore` WHERE type = 'Incoming' AND id = '$id'";
+        $query = "SELECT id,date,price FROM `productstore` WHERE type = 'Incoming' AND id = '$id'";
     }
     $coon = $db->query($query);
     if($coon){

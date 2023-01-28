@@ -172,7 +172,7 @@ function bank($db){
             $coon_2 = $db->query($query_2);
             if($coon_2){
                 $row_2 = $coon_2->fetch_assoc();
-                $query_3= "SELECT SUM(productstore.price)price FROM `storename` JOIN productstore ON storeName.id = productstore.store_id WHERE storeName.userid = '$admin_ID' AND productstore.type = 'Incoming'";
+                $query_3= "SELECT SUM(productstore.price)price FROM `storename` JOIN productstore ON productstore.store_id = storename.id WHERE storename.userid = '$admin_ID' AND productstore.type = 'Incoming'";
                 $coon_3 = $db->query($query_3);
                 if($coon_3){
                     $row_3 = $coon_3->fetch_assoc();

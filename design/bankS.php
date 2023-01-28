@@ -13,7 +13,7 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
   $sax = (mysqli_num_rows($conn));
   if($sax){
 ?>
-<div class="i-name">Customer info</div>
+<div class="i-name">Form Details</div>
 <div class="padding">
 <input type="hidden" id="customerId" value="<?php echo $_GET['id']; ?>">
 <button class="btn btn-primary float-right" id="updateBnt"><i class="fas fa-edit"></i></button>
@@ -53,8 +53,8 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
           <div class="mb-3">
               <label class="form-label">Type</label>
               <select name="type" id="type" class="form-control">
-                    <option value="deposit">deposit the money</option>
-                    <option value="withdraw">withdraw the money</option>
+                    <option value="deposit">Deposit</option>
+                    <option value="withdraw">Withdraw</option>
                 </select>
           </div>
           <div class="mb-3">

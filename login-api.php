@@ -38,7 +38,7 @@ function login($db){
             $date = $row['time_to_expire'];
             $days = date('Y-m-d');
             if($date <= $days){
-                $data = array('status' => false,'data' => 'This account has expired');
+                $data = array('status' => false,'data' => 'This account has expired Please call 0617666664');
             }else{
                 if($row['status'] == 'active'){
                     $_SESSION['admin_id'] = $row['id'];
@@ -46,7 +46,7 @@ function login($db){
                     $_SESSION['fullName'] = $row['fullname'];
                     $data = array('status' => true,'data' => 'sax');
                 }else{
-                    $data = array('status' => false,'data' => 'Your account is blocked');
+                    $data = array('status' => false,'data' => 'Your account is blocked Please Call 0617666664');
                 }
                
             }
@@ -66,7 +66,7 @@ function login($db){
                 $date2 = $row2['time_to_expire'];
                 $days2 = date('Y-m-d');
                 if($date2 <= $days2){
-                    $data = array('status' => false,'data' => 'This account has expired');
+                    $data = array('status' => false,'data' => 'This account has expired please call 0617666664');
                 }else{
                      if($row2['status'] == 'active'){
                     if($row1['status'] == 'Action'){
@@ -75,14 +75,14 @@ function login($db){
                         $_SESSION['fullName'] = $row1['fullname'];
                         $data = array('status' => true,'data' => 'sax');
                     }else{
-                        $data = array('status' => false,'data' => 'Your account is blocked');
+                        $data = array('status' => false,'data' => 'Your account is blocked please contact your admin');
                     }
                      }else{
                           $data = array('status' => false,'data' => 'Your admin account is blocked');
                      }
                 }
             }else{
-                $data = array('status' => false,'data' => 'Phone and password are incorrect');
+                $data = array('status' => false,'data' => 'Phone and Password are incorrect try again');
             }
 
     }

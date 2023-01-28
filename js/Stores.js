@@ -119,7 +119,7 @@ $('#fromPayment').submit(function(e){
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/store.php',
+        url :  '../api/Store.php',
         data :  data,
         success : function(data){
            alertInfo(data.status,data.data,'modalPayment','fromPayment');
@@ -138,7 +138,7 @@ function loadData(customerId){
     $.ajax({
         method : 'POST',
         dataType : 'JSON',
-        url :  '../api/store.php',
+        url :  '../api/Store.php',
         data :  data,
         success : function(data){
             let status = data.status;
@@ -233,7 +233,7 @@ function deleteFunction(customerId){
 }
 
 $('#deleteBtn').click(function(){
-    if(confirm('Im not sure')){
+    if(confirm('Are you sure to delete')){
         deleteFunction(customerId);
     }
 })
@@ -254,7 +254,7 @@ $('#Payment').click(function(){
 
 $('#addFrom').click(function(){
   let html = `<div class="mb-3"></div>
-  <h5 class="mb-2">product</h5>
+  <h5 class="mb-2">Other Product</h5>
   <div class="mb-3">
     <label class="form-label">Name</label>
     <input type="text" name="namePr" id="namePr" class='form-control' required>
@@ -290,6 +290,7 @@ function all(id){
              $('#Amount').val(per[0].price);
              $('#idPay').val(per[0].id);
              $('#modalPayment').modal('show');
+             btn = 'update';
           }
         },
         error : function(data){
@@ -359,7 +360,7 @@ $('#tablePayment').on("click",'a.update_info',function(){
 })
 $('#tablePayment').on("click",'a.delete_info',function(){
     let id = $(this).attr('delete_id');
-    if(confirm('Im not sure')){
+    if(confirm('Are you sure to delete')){
         deletes(id);
     }  
 })

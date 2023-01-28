@@ -4,7 +4,7 @@ $admin = 'admin';
 if($admin == 'admin' || $admin == 'super'){
 ?>
 <div class="i-name">
-Company Profile
+Profile
 </div>
 <div class="padding">
 <button class="btn btn-success float-right" id="passwordBtn"><i class="fa-solid fa-key"></i></button>
@@ -15,7 +15,7 @@ Company Profile
 <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Update Password</h5>
+        <h5 class="modal-title">Change Password</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

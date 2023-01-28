@@ -12,7 +12,7 @@ $('#export').on('click', function() {
     let url = URL.createObjectURL(file);
     let a = $("<a />", {
       href: url,
-      download: `${NowDateExport}.xls`}).appendTo("body").get(0).click();
+      download: `Bank ${NowDateExport}.xls`}).appendTo("body").get(0).click();
 });
 $('#formData').submit(function(e){
     e.preventDefault();
@@ -92,7 +92,7 @@ $('#formDataBank').submit(function (event) {
                 }
                 tr += '</tr>';
              })
-             let html = `<p class="fs-4 shadow bg-white rounded mt-2 mb-0 text-center" style="height: 30px;display: flex; align-content: center;justify-content: center;margin-bottom: 2px;">total $${data.total ? data.total : '0'}</p>`
+             let html = `<p class="fs-4 shadow bg-white rounded mt-2 mb-0 text-center" style="height: 30px;display: flex; align-content: center;justify-content: center;margin-bottom: 2px;">Balance: $${data.total ? data.total : '0'}</p>`
              $('#table tbody').append(tr);
              $('#total').append(html);
              $('#tableExport tbody').append(trExport);

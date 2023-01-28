@@ -257,7 +257,7 @@ function deleteFunction(customerId){
             alert(per);
            }else{
             alert(per);
-            window.location.href = '../design/';
+            window.location.href = '../design/customer.php';
            }
          },
          error : function(data){
@@ -267,7 +267,7 @@ function deleteFunction(customerId){
 }
 
 $('#deleteBtn').click(function(){
-    if(confirm('Im not sure')){
+    if(confirm('Are you sure to delete')){
         deleteFunction(customerId);
     }
 })
@@ -291,7 +291,7 @@ $('#Payment').click(function(){
 
 $('#addFrom').click(function(){
   let html = `<div class="mb-3"></div>
-  <h5 class="mb-2">product</h5>
+  <h5 class="mb-2">Product</h5>
   <div class="mb-3">
     <label class="form-label">Name</label><input class="form-control" list="datalistOptions" id="namePr" placeholder="Select Product Name" name="namePr" >
     <datalist id="datalistOptions">
@@ -395,7 +395,7 @@ $('#tablePayment').on("click",'a.update_info',function(){
 })
 $('#tablePayment').on("click",'a.delete_info',function(){
     let id = $(this).attr('delete_id');
-    if(confirm('Im not sure')){
+    if(confirm('Are you sure to delete')){
         deletes(id);
     }  
 })

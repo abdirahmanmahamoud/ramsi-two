@@ -8,7 +8,7 @@ include './header.php';
         <div class="col-sm-4">
             <select name="type" id="type" class="form-control mt-2">
                 <option value="0">All</option>
-                <option value="custon">Custon</option>
+                <option value="custon">Custom</option>
             </select>
         </div>
         <div class="col-sm-4">
@@ -18,7 +18,7 @@ include './header.php';
         <input type="date" name="todate" id="todate" class='form-control mt-2'>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary  mt-2" id='add'>summit</button>
+    <button type="submit" class="btn btn-primary  mt-2" id='add'>Refresh</button>
 </form>
 <table class="table mt-4" id="table">
 

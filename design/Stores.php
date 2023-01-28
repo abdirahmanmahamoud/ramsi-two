@@ -13,7 +13,7 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
   $sax = (mysqli_num_rows($conn));
   if($sax){
 ?>
-<div class="i-name">Vendors info</div>
+<div class="i-name">Vendor Details </div>
 <div class="padding">
 <input type="hidden" id="customerId" value="<?php echo $_GET['id']; ?>">
 <button class="btn btn-primary float-right" id="updateBnt"><i class="fas fa-edit"></i></button>
@@ -33,22 +33,22 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
   </div>
 </div>
 <div style="margin-top: 30px;">
-  <button class="btn btn-primary" id="aadOutgoing">Outgoing</button>
-  <button class="btn btn-success" id='Payment'>Payment</button>
+  <button class="btn btn-primary" id="aadOutgoing">Take Order</button>
+  <button class="btn btn-success" id='Payment'>Pay</button>
 </div>
-<h4 class="fs-4 p-3">Reading</h4>
+<h4 class="fs-4 p-3">Orders</h4>
 <table class="table" style="margin-top: 15px; margin-left: 5px;" id="table">
 <thead>
   <tr>
       <th>Date</th>
-      <th>product number</th>
-      <th>price</th>
+      <th>QTy</th>
+      <th>Rate</th>
   </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
-<h4 class="fs-4 p-3">Payment</h4>
+<h4 class="fs-4 p-3">Payments</h4>
 <table class="table" style="margin-top: 15px; margin-left: 5px;" id="tablePayment">
 <thead>
   <tr>
@@ -65,18 +65,18 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Update Customer</h5>
+        <h5 class="modal-title">Update vendor details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="alertInfo"></div>
         <form id="fromUpdateCustomer">
         <div class="mb-3">
-              <label class="form-label">store Name</label>
+              <label class="form-label">Name</label>
               <input type="text" name="storeName" id="storeName" class='form-control' required>
           </div>
           <div class="mb-3">
-              <label class="form-label">store phone</label>
+              <label class="form-label">Phone</label>
               <input type="text" name="storePhone" id="storePhone" class='form-control' required>
           </div>
           <input type="hidden" name="id" id="id" value="<?php echo $_GET['id'];?>">
@@ -93,13 +93,13 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
 <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add Outgoing</h5>
+        <h5 class="modal-title">Add Products</h5>
         <button type="button" class="btn-close" id="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="alertInfo"></div>
         <form id="fromOutgoing">
-          <h5 class="mb-2">product</h5>
+          <h5 class="mb-2">Product</h5>
           <div class="mb-3">
             <label class="form-label">Name</label>
             <input type="text" name="namePr" id="namePr" class='form-control' required>
@@ -109,7 +109,7 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
             <input type="text" name="QtyPr" id="QtyPr" class='form-control' required>
           </div>
           <div class="mb-3">
-            <label class="form-label">Price</label>
+            <label class="form-label">Rate</label>
             <input type="text" name="PricePr" id="PricePr" class='form-control' required>
           </div>
           <div class="formAdd">
@@ -129,11 +129,11 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
           </div>
   -->
           </div>
-          <button type = 'button' id="addFrom" class="btn btn-secondary" style="width: 100%;">Add product</button>
+          <button type = 'button' id="addFrom" class="btn btn-secondary" style="width: 100%;">+</button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="btn-close-hea" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Add</button>
         </form>
       </div>
     </div>
@@ -144,7 +144,7 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
 <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add Payment</h5>
+        <h5 class="modal-title">Add Payments</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -158,7 +158,7 @@ if($_SESSION['role']== 'admin' || $_SESSION['role'] == 'super'){
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Pay</button>
         </form>
       </div>
     </div>

@@ -6,7 +6,7 @@ if($_GET['id'] == null){
 $idC = $_GET['id'];
 ?>
 <div class="i-name">
-Product Group Info
+Invoice Details
 </div>
 <div class="padding-main">
 <input type="hidden" id="customerId" value="<?php echo $_GET['id']; ?>">
